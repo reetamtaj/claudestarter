@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, BarChart3, Users, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
+import { UserButton, useUser } from '@clerk/nextjs';
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -18,6 +19,7 @@ const navItems = [
 
 export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
   const pathname = usePathname();
+  const { user } = useUser();
 
   return (
     <aside
@@ -59,11 +61,30 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
           })}
         </nav>
 
-        {/* Toggle Button (Desktop Only) */}
-        <div className="p-3 border-t border-zinc-200 dark:border-zinc-800 hidden md:block">
+        {/* User Profile and Controls */}
+        <div className="p-3 border-t border-zinc-200 dark:border-zinc-800">
+          {/* User Profile Section */}
+          {user && (
+            <div className={`flex items-center gap-3 px-3 py-2.5 mb-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors ${
+              isCollapsed ? 'justify-center' : 'justify-center md:justify-start'
+            }`}>
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: 'w-8 h-8',
+                  }
+                }}
+              />
+              <span className={`text-sm font-medium text-zinc-900 dark:text-white truncate ${isCollapsed ? 'hidden' : 'hidden md:block'}`}>
+                {user.fullName || user.firstName || 'User'}
+              </span>
+            </div>
+          )}
+
+          {/* Toggle Button - Desktop Only */}
           <button
             onClick={onToggle}
-            className="flex items-center justify-center w-full px-3 py-2.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
+            className="flex items-center justify-center w-full px-3 py-2.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors hidden md:flex"
             aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             aria-expanded={!isCollapsed}
           >

@@ -1,11 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Sidebar from './Sidebar';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const pathname = usePathname();
+
+  // Check if we're on an auth page (sign-in or sign-up)
+  const isAuthPage = pathname?.startsWith('/sign-in') || pathname?.startsWith('/sign-up');
 
   useEffect(() => {
     setIsMounted(true);
@@ -20,6 +25,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     setIsCollapsed(newState);
     localStorage.setItem('sidebar-collapsed', String(newState));
   };
+
+  // If on auth page, render without sidebar
+  if (isAuthPage) {
+    return <>{children}</>;
+  }
 
   if (!isMounted) {
     return (

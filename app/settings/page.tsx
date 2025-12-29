@@ -1,4 +1,5 @@
 import SettingsSection from "@/app/components/SettingsSection";
+import UserProfileSection from "@/app/components/UserProfileSection";
 
 export default function SettingsPage() {
   return (
@@ -6,29 +7,8 @@ export default function SettingsPage() {
       <h1 className="text-3xl font-semibold mb-8 text-foreground">Settings</h1>
 
       <div className="space-y-6">
-        <SettingsSection
-          title="Profile"
-          description="Manage your profile information and public details"
-        >
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-2 text-foreground">Display Name</label>
-              <input
-                type="text"
-                placeholder="John Doe"
-                className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2 text-foreground">Email</label>
-              <input
-                type="email"
-                placeholder="john@example.com"
-                className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500"
-              />
-            </div>
-          </div>
-        </SettingsSection>
+        {/* User Profile Section - Managed by Clerk */}
+        <UserProfileSection />
 
         <SettingsSection
           title="Preferences"
